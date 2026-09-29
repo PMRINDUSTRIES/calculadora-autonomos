@@ -6,13 +6,13 @@
 <title>Calculadora de Precio por Hora para Autónomos | Gratis y sin registro</title>
 <meta name="description" content="Calcula gratis tu precio por hora como autónomo: costes fijos, variables, horas facturables y margen. Resultado al instante, sin registro.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://calculadora-autonomos.vercel.app/">
+<link rel="canonical" href="https://calculadora-autonomos-zeta.vercel.app/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Calculadora de Precio por Hora para Autónomos">
 <meta property="og:description" content="Calcula gratis y sin registro tu precio/hora a partir de costes fijos, costes variables, horas facturables y margen de beneficio.">
-<meta property="og:url" content="https://calculadora-autonomos.vercel.app/">
+<meta property="og:url" content="https://calculadora-autonomos-zeta.vercel.app/">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Calculadora de Precio por Hora para Autónomos">
@@ -25,7 +25,7 @@
 <header class="site-header">
   <div class="container">
     <h1>Calculadora de precio por hora para autónomos</h1>
-    <p class="subtitle">Averigua en 10 segundos cuánto debes cobrar por hora para cubrir tus costes y ganar el margen que quieres. Gratis, sin registro y sin guardar tus datos.</p>
+    <p class="subtitle">Calcula cuánto podrías cobrar por hora para cubrir tus costes y ganar el margen que quieres. Gratis, sin registro y sin guardar tus datos.</p>
   </div>
 </header>
 
@@ -38,29 +38,29 @@
     <form id="calc-form" novalidate>
       <div class="field">
         <label for="fijos">Costes fijos mensuales (€)</label>
-        <input type="number" id="fijos" name="fijos" min="0" step="1" inputmode="decimal" placeholder="Ej. 400" required>
+        <input type="number" id="fijos" name="fijos" min="0" step="any" inputmode="decimal" placeholder="Ej. 400" required>
         <small class="hint">Alquiler, software, seguros, cuota de autónomo, gestoría, etc.</small>
         <span class="error" id="error-fijos" role="alert"></span>
       </div>
 
       <div class="field">
         <label for="variables">Costes variables mensuales (€)</label>
-        <input type="number" id="variables" name="variables" min="0" step="1" inputmode="decimal" placeholder="Ej. 150" required>
+        <input type="number" id="variables" name="variables" min="0" step="any" inputmode="decimal" placeholder="Ej. 150" required>
         <small class="hint">Materiales, comisiones, desplazamientos u otros gastos que dependen del trabajo que hagas.</small>
         <span class="error" id="error-variables" role="alert"></span>
       </div>
 
       <div class="field">
         <label for="horas">Horas facturables al mes</label>
-        <input type="number" id="horas" name="horas" min="1" step="1" inputmode="numeric" placeholder="Ej. 120" required>
+        <input type="number" id="horas" name="horas" min="0.01" step="any" inputmode="decimal" placeholder="Ej. 120" required>
         <small class="hint">Solo las horas que realmente facturas a clientes, no las horas totales trabajadas.</small>
         <span class="error" id="error-horas" role="alert"></span>
       </div>
 
       <div class="field">
-        <label for="margen">Margen de beneficio deseado (%)</label>
-        <input type="number" id="margen" name="margen" min="0" step="1" inputmode="numeric" placeholder="Ej. 20" value="20" required>
-        <small class="hint">Lo que quieres ganar por encima de cubrir costes: tu sueldo, ahorro o crecimiento.</small>
+        <label for="margen">Margen sobre costes deseado (%)</label>
+        <input type="number" id="margen" name="margen" min="0" step="any" inputmode="decimal" placeholder="Ej. 20" value="20" required>
+        <small class="hint">Porcentaje adicional sobre tus costes (recargo). Incluye en tus costes tu remuneración deseada si quieres asegurarla.</small>
         <span class="error" id="error-margen" role="alert"></span>
       </div>
 
@@ -80,7 +80,7 @@
       <div class="resultado-card destacada">
         <span class="label">Precio/hora recomendado</span>
         <span class="valor" id="precio-recomendado">0 €</span>
-        <span class="sub">Con tu margen de beneficio aplicado</span>
+        <span class="sub">Con el porcentaje adicional aplicado</span>
       </div>
     </div>
 
@@ -104,7 +104,7 @@
 
   <section class="info">
     <h2>¿Por qué esta calculadora?</h2>
-    <p>Muchos autónomos ponen precio a ojo, sin tener en cuenta todos sus costes ni el margen que necesitan para que el negocio sea sostenible. Esta herramienta parte de un cálculo simple y transparente: sumamos tus costes fijos y variables, los dividimos entre las horas que realmente puedes facturar, y añadimos el margen de beneficio que quieres ganar.</p>
+    <p>Muchos autónomos ponen precio a ojo, sin tener en cuenta todos sus costes ni el margen que necesitan para que el negocio sea sostenible. Esta herramienta parte de un cálculo simple y transparente: sumamos tus costes fijos y variables, los dividimos entre las horas que realmente puedes facturar, y añadimos el porcentaje adicional sobre costes que quieres aplicar.</p>
   </section>
 
 </main>
@@ -148,19 +148,19 @@
     const horas = parseFloat(fields.horas.value);
     const margen = parseFloat(fields.margen.value);
 
-    if (isNaN(fijos) || fijos < 0) {
+    if (!Number.isFinite(fijos) || fijos < 0) {
       errors.fijos.textContent = 'Introduce un importe de costes fijos válido (0 o más).';
       ok = false;
     }
-    if (isNaN(variables) || variables < 0) {
+    if (!Number.isFinite(variables) || variables < 0) {
       errors.variables.textContent = 'Introduce un importe de costes variables válido (0 o más).';
       ok = false;
     }
-    if (isNaN(horas) || horas <= 0) {
+    if (!Number.isFinite(horas) || horas <= 0) {
       errors.horas.textContent = 'Introduce un número de horas mayor que 0.';
       ok = false;
     }
-    if (isNaN(margen) || margen < 0) {
+    if (!Number.isFinite(margen) || margen < 0) {
       errors.margen.textContent = 'Introduce un margen válido (0 o más).';
       ok = false;
     }
