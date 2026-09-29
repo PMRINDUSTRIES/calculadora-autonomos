@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Precio por Hora para Autónomos | Gratis y sin registro</title>
+<meta name="description" content="Calcula gratis tu precio por hora como autónomo: costes fijos, variables, horas facturables y margen. Resultado al instante, sin registro.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://calculadora-autonomos.vercel.app/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculadora de Precio por Hora para Autónomos">
+<meta property="og:description" content="Calcula gratis y sin registro tu precio/hora a partir de costes fijos, costes variables, horas facturables y margen de beneficio.">
+<meta property="og:url" content="https://calculadora-autonomos.vercel.app/">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calculadora de Precio por Hora para Autónomos">
+<meta name="twitter:description" content="Calcula gratis y sin registro tu precio/hora a partir de costes fijos, variables, horas facturables y margen.">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <h1>Calculadora de precio por hora para autónomos</h1>
+    <p class="subtitle">Averigua en 10 segundos cuánto debes cobrar por hora para cubrir tus costes y ganar el margen que quieres. Gratis, sin registro y sin guardar tus datos.</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="calculator" aria-labelledby="calc-title">
+    <h2 id="calc-title" class="visually-hidden">Formulario de cálculo</h2>
+    <p class="demo-note">Calculadora interactiva de demostración: todo se calcula en tu navegador, no se envía ni se guarda ningún dato.</p>
+
+    <form id="calc-form" novalidate>
+      <div class="field">
+        <label for="fijos">Costes fijos mensuales (€)</label>
+        <input type="number" id="fijos" name="fijos" min="0" step="1" inputmode="decimal" placeholder="Ej. 400" required>
+        <small class="hint">Alquiler, software, seguros, cuota de autónomo, gestoría, etc.</small>
+        <span class="error" id="error-fijos" role="alert"></span>
+      </div>
+
+      <div class="field">
+        <label for="variables">Costes variables mensuales (€)</label>
+        <input type="number" id="variables" name="variables" min="0" step="1" inputmode="decimal" placeholder="Ej. 150" required>
+        <small class="hint">Materiales, comisiones, desplazamientos u otros gastos que dependen del trabajo que hagas.</small>
+        <span class="error" id="error-variables" role="alert"></span>
+      </div>
+
+      <div class="field">
+        <label for="horas">Horas facturables al mes</label>
+        <input type="number" id="horas" name="horas" min="1" step="1" inputmode="numeric" placeholder="Ej. 120" required>
+        <small class="hint">Solo las horas que realmente facturas a clientes, no las horas totales trabajadas.</small>
+        <span class="error" id="error-horas" role="alert"></span>
+      </div>
+
+      <div class="field">
+        <label for="margen">Margen de beneficio deseado (%)</label>
+        <input type="number" id="margen" name="margen" min="0" step="1" inputmode="numeric" placeholder="Ej. 20" value="20" required>
+        <small class="hint">Lo que quieres ganar por encima de cubrir costes: tu sueldo, ahorro o crecimiento.</small>
+        <span class="error" id="error-margen" role="alert"></span>
+      </div>
+
+      <button type="submit" class="btn-primary">Calcular mi precio por hora</button>
+    </form>
+  </section>
+
+  <section class="resultado" id="resultado" aria-live="polite" hidden>
+    <h2>Tu resultado</h2>
+
+    <div class="resultado-grid">
+      <div class="resultado-card">
+        <span class="label">Coste por hora</span>
+        <span class="valor" id="coste-hora">0 €</span>
+        <span class="sub">Lo que te cuesta cada hora, sin margen</span>
+      </div>
+      <div class="resultado-card destacada">
+        <span class="label">Precio/hora recomendado</span>
+        <span class="valor" id="precio-recomendado">0 €</span>
+        <span class="sub">Con tu margen de beneficio aplicado</span>
+      </div>
+    </div>
+
+    <div class="desglose">
+      <h3>Cómo se calcula</h3>
+      <ul>
+        <li><span>Costes fijos mensuales</span><strong id="d-fijos">0 €</strong></li>
+        <li><span>Costes variables mensuales</span><strong id="d-variables">0 €</strong></li>
+        <li class="total"><span>Costes totales</span><strong id="d-total">0 €</strong></li>
+        <li><span>÷ Horas facturables al mes</span><strong id="d-horas">0 h</strong></li>
+        <li><span>= Coste por hora</span><strong id="d-coste-hora">0 €</strong></li>
+        <li><span>+ Margen (%)</span><strong id="d-margen">0 %</strong></li>
+        <li class="total"><span>Precio/hora recomendado</span><strong id="d-precio-final">0 €</strong></li>
+      </ul>
+    </div>
+
+    <div class="aviso-fiscal">
+      <strong>⚠️ Aviso importante:</strong> Este resultado es una estimación orientativa a partir de los datos que introduces. No incluye impuestos (IVA, IRPF) ni tiene en cuenta tu situación fiscal particular. Antes de fijar tarifas definitivas, revisa tu caso con tu gestoría o asesor fiscal.
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>¿Por qué esta calculadora?</h2>
+    <p>Muchos autónomos ponen precio a ojo, sin tener en cuenta todos sus costes ni el margen que necesitan para que el negocio sea sostenible. Esta herramienta parte de un cálculo simple y transparente: sumamos tus costes fijos y variables, los dividimos entre las horas que realmente puedes facturar, y añadimos el margen de beneficio que quieres ganar.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Calculadora gratuita para autónomos y freelancers. No almacenamos ningún dato: todo el cálculo se hace en tu navegador.</p>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function () {
+  const form = document.getElementById('calc-form');
+  const resultado = document.getElementById('resultado');
+
+  const fields = {
+    fijos: document.getElementById('fijos'),
+    variables: document.getElementById('variables'),
+    horas: document.getElementById('horas'),
+    margen: document.getElementById('margen')
+  };
+
+  const errors = {
+    fijos: document.getElementById('error-fijos'),
+    variables: document.getElementById('error-variables'),
+    horas: document.getElementById('error-horas'),
+    margen: document.getElementById('error-margen')
+  };
+
+  function eur(n) {
+    return n.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+  }
+
+  function validar() {
+    let ok = true;
+    Object.values(errors).forEach(e => e.textContent = '');
+
+    const fijos = parseFloat(fields.fijos.value);
+    const variables = parseFloat(fields.variables.value);
+    const horas = parseFloat(fields.horas.value);
+    const margen = parseFloat(fields.margen.value);
+
+    if (isNaN(fijos) || fijos < 0) {
+      errors.fijos.textContent = 'Introduce un importe de costes fijos válido (0 o más).';
+      ok = false;
+    }
+    if (isNaN(variables) || variables < 0) {
+      errors.variables.textContent = 'Introduce un importe de costes variables válido (0 o más).';
+      ok = false;
+    }
+    if (isNaN(horas) || horas <= 0) {
+      errors.horas.textContent = 'Introduce un número de horas mayor que 0.';
+      ok = false;
+    }
+    if (isNaN(margen) || margen < 0) {
+      errors.margen.textContent = 'Introduce un margen válido (0 o más).';
+      ok = false;
+    }
+    return ok ? { fijos, variables, horas, margen } : null;
+  }
+
+  function calcular(e) {
+    if (e) e.preventDefault();
+    const datos = validar();
+    if (!datos) {
+      resultado.hidden = true;
+      return;
+    }
+    const { fijos, variables, horas, margen } = datos;
+
+    const costesTotales = fijos + variables;
+    const costeHora = costesTotales / horas;
+    const precioRecomendado = costeHora * (1 + margen / 100);
+
+    document.getElementById('coste-hora').textContent = eur(costeHora) + ' /h';
+    document.getElementById('precio-recomendado').textContent = eur(precioRecomendado) + ' /h';
+
+    document.getElementById('d-fijos').textContent = eur(fijos);
+    document.getElementById('d-variables').textContent = eur(variables);
+    document.getElementById('d-total').textContent = eur(costesTotales);
+    document.getElementById('d-horas').textContent = horas + ' h';
+    document.getElementById('d-coste-hora').textContent = eur(costeHora);
+    document.getElementById('d-margen').textContent = margen + ' %';
+    document.getElementById('d-precio-final').textContent = eur(precioRecomendado) + ' /h';
+
+    resultado.hidden = false;
+  }
+
+  form.addEventListener('submit', calcular);
+  [fields.fijos, fields.variables, fields.horas, fields.margen].forEach(f => {
+    f.addEventListener('input', () => {
+      if (!resultado.hidden) calcular();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
