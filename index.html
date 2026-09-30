@@ -3,205 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Precio por Hora para Autónomos | Gratis y sin registro</title>
-<meta name="description" content="Calcula gratis tu precio por hora como autónomo: costes fijos, variables, horas facturables y margen. Resultado al instante, sin registro.">
+<title>Calculadora de precio por hora para autónomos | PMR Industries</title>
+<meta name="description" content="Estima tu precio por hora incluyendo gastos, remuneración mensual, horas facturables y recargo sobre costes. Fórmula clara, gratis y sin registro.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://calculadora-autonomos-zeta.vercel.app/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
 <meta property="og:type" content="website">
-<meta property="og:title" content="Calculadora de Precio por Hora para Autónomos">
-<meta property="og:description" content="Calcula gratis y sin registro tu precio/hora a partir de costes fijos, costes variables, horas facturables y margen de beneficio.">
+<meta property="og:title" content="Calculadora de precio por hora para autónomos">
+<meta property="og:description" content="Estima tu precio/hora con gastos, remuneración propia, horas facturables y recargo sobre costes. Cálculo transparente y orientativo.">
 <meta property="og:url" content="https://calculadora-autonomos-zeta.vercel.app/">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Calculadora de Precio por Hora para Autónomos">
-<meta name="twitter:description" content="Calcula gratis y sin registro tu precio/hora a partir de costes fijos, variables, horas facturables y margen.">
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="site-header">
-  <div class="container">
-    <h1>Calculadora de precio por hora para autónomos</h1>
-    <p class="subtitle">Calcula cuánto podrías cobrar por hora para cubrir tus costes y ganar el margen que quieres. Gratis, sin registro y sin guardar tus datos.</p>
-  </div>
-</header>
-
+<header class="site-header"><div class="container">
+  <h1>Calculadora de precio por hora para autónomos</h1>
+  <p class="subtitle">Estima una tarifa que cubra tus gastos y tu remuneración, con un recargo opcional. Antes de impuestos; no es una tarifa universal.</p>
+</div></header>
 <main class="container">
-
   <section class="calculator" aria-labelledby="calc-title">
-    <h2 id="calc-title" class="visually-hidden">Formulario de cálculo</h2>
-    <p class="demo-note">Calculadora interactiva de demostración: todo se calcula en tu navegador, no se envía ni se guarda ningún dato.</p>
-
+    <h2 id="calc-title">Pon números a tu tarifa</h2>
+    <p class="demo-note">Herramienta orientativa: el cálculo se hace en tu navegador; los importes introducidos no se envían al servidor.</p>
     <form id="calc-form" novalidate>
       <div class="field">
-        <label for="fijos">Costes fijos mensuales (€)</label>
-        <input type="number" id="fijos" name="fijos" min="0" step="any" inputmode="decimal" placeholder="Ej. 400" required>
-        <small class="hint">Alquiler, software, seguros, cuota de autónomo, gestoría, etc.</small>
+        <label for="fijos">Gastos fijos mensuales (€)</label>
+        <input type="number" id="fijos" name="fijos" min="0" step="any" inputmode="decimal" placeholder="Ej. 400" aria-describedby="hint-fijos error-fijos" required>
+        <small class="hint" id="hint-fijos">Software, alquiler, seguros, cuota de autónomo, gestoría… No incluyas aquí tu remuneración.</small>
         <span class="error" id="error-fijos" role="alert"></span>
       </div>
-
       <div class="field">
-        <label for="variables">Costes variables mensuales (€)</label>
-        <input type="number" id="variables" name="variables" min="0" step="any" inputmode="decimal" placeholder="Ej. 150" required>
-        <small class="hint">Materiales, comisiones, desplazamientos u otros gastos que dependen del trabajo que hagas.</small>
+        <label for="variables">Gastos variables mensuales (€)</label>
+        <input type="number" id="variables" name="variables" min="0" step="any" inputmode="decimal" placeholder="Ej. 150" aria-describedby="hint-variables error-variables" required>
+        <small class="hint" id="hint-variables">Materiales, comisiones o desplazamientos. Usa una media mensual estimada y evita duplicar gastos fijos.</small>
         <span class="error" id="error-variables" role="alert"></span>
       </div>
-
+      <div class="field">
+        <label for="sueldo">Remuneración propia deseada al mes (€)</label>
+        <input type="number" id="sueldo" name="sueldo" min="0.01" step="any" inputmode="decimal" placeholder="Ej. 1800" aria-describedby="hint-sueldo error-sueldo" required>
+        <small class="hint" id="hint-sueldo">La cantidad que quieres reservar para pagarte. No equivale automáticamente a sueldo neto tras impuestos.</small>
+        <span class="error" id="error-sueldo" role="alert"></span>
+      </div>
       <div class="field">
         <label for="horas">Horas facturables al mes</label>
-        <input type="number" id="horas" name="horas" min="0.01" step="any" inputmode="decimal" placeholder="Ej. 120" required>
-        <small class="hint">Solo las horas que realmente facturas a clientes, no las horas totales trabajadas.</small>
+        <input type="number" id="horas" name="horas" min="0.01" step="any" inputmode="decimal" placeholder="Ej. 100" aria-describedby="hint-horas error-horas" required>
+        <small class="hint" id="hint-horas">Cuenta solo horas cobrables: resta administración, ventas, formación, vacaciones y bajas de tus horas disponibles. Si trabajas 160 h pero solo puedes cobrar 100 h, escribe 100.</small>
         <span class="error" id="error-horas" role="alert"></span>
       </div>
-
       <div class="field">
-        <label for="margen">Margen sobre costes deseado (%)</label>
-        <input type="number" id="margen" name="margen" min="0" step="any" inputmode="decimal" placeholder="Ej. 20" value="20" required>
-        <small class="hint">Porcentaje adicional sobre tus costes (recargo). Incluye en tus costes tu remuneración deseada si quieres asegurarla.</small>
+        <label for="margen">Recargo sobre costes (%)</label>
+        <input type="number" id="margen" name="margen" min="0" step="any" inputmode="decimal" placeholder="Ej. 20" value="20" aria-describedby="hint-margen error-margen" required>
+        <small class="hint" id="hint-margen">Extra sobre el coste por hora. Un 20 % de recargo multiplica la base por 1,20; no representa un margen del 20 % sobre el precio de venta.</small>
         <span class="error" id="error-margen" role="alert"></span>
       </div>
-
-      <button type="submit" class="btn-primary">Calcular mi precio por hora</button>
+      <button type="submit" class="btn-primary">Calcular tarifa orientativa</button>
     </form>
   </section>
-
+  <section id="estado-inicial" class="empty-state" aria-label="Antes de calcular">
+    <h2>Tu estimación aparecerá aquí</h2>
+    <p>Completa los campos y pulsa «Calcular tarifa orientativa». Comprueba especialmente la remuneración y las horas que realmente podrás facturar.</p>
+  </section>
   <section class="resultado" id="resultado" aria-live="polite" hidden>
-    <h2>Tu resultado</h2>
-
+    <h2>Tu estimación</h2>
     <div class="resultado-grid">
-      <div class="resultado-card">
-        <span class="label">Coste por hora</span>
-        <span class="valor" id="coste-hora">0 €</span>
-        <span class="sub">Lo que te cuesta cada hora, sin margen</span>
-      </div>
-      <div class="resultado-card destacada">
-        <span class="label">Precio/hora recomendado</span>
-        <span class="valor" id="precio-recomendado">0 €</span>
-        <span class="sub">Con el porcentaje adicional aplicado</span>
-      </div>
+      <div class="resultado-card"><span class="label">Base por hora</span><span class="valor" id="coste-hora"></span><span class="sub">Gastos y remuneración, antes del recargo</span></div>
+      <div class="resultado-card destacada"><span class="label">Tarifa orientativa por hora</span><span class="valor" id="precio-recomendado"></span><span class="sub">Antes de impuestos; incluye el recargo indicado</span></div>
     </div>
-
-    <div class="desglose">
-      <h3>Cómo se calcula</h3>
-      <ul>
-        <li><span>Costes fijos mensuales</span><strong id="d-fijos">0 €</strong></li>
-        <li><span>Costes variables mensuales</span><strong id="d-variables">0 €</strong></li>
-        <li class="total"><span>Costes totales</span><strong id="d-total">0 €</strong></li>
-        <li><span>÷ Horas facturables al mes</span><strong id="d-horas">0 h</strong></li>
-        <li><span>= Coste por hora</span><strong id="d-coste-hora">0 €</strong></li>
-        <li><span>+ Margen (%)</span><strong id="d-margen">0 %</strong></li>
-        <li class="total"><span>Precio/hora recomendado</span><strong id="d-precio-final">0 €</strong></li>
-      </ul>
-    </div>
-
-    <div class="aviso-fiscal">
-      <strong>⚠️ Aviso importante:</strong> Este resultado es una estimación orientativa a partir de los datos que introduces. No incluye impuestos (IVA, IRPF) ni tiene en cuenta tu situación fiscal particular. Antes de fijar tarifas definitivas, revisa tu caso con tu gestoría o asesor fiscal.
-    </div>
+    <div class="desglose"><h3>Cómo se calcula</h3><ul>
+      <li><span>Gastos fijos mensuales</span><strong id="d-fijos"></strong></li>
+      <li><span>Gastos variables mensuales</span><strong id="d-variables"></strong></li>
+      <li><span>Remuneración propia mensual</span><strong id="d-sueldo"></strong></li>
+      <li class="total"><span>Base mensual</span><strong id="d-total"></strong></li>
+      <li><span>÷ Horas facturables al mes</span><strong id="d-horas"></strong></li>
+      <li><span>= Base por hora</span><strong id="d-coste-hora"></strong></li>
+      <li><span>× (1 + recargo sobre costes)</span><strong id="d-margen"></strong></li>
+      <li class="total"><span>Tarifa orientativa por hora</span><strong id="d-precio-final"></strong></li>
+    </ul></div>
+    <div class="aviso-fiscal"><strong>Límites de la estimación:</strong> no calcula IVA, IRPF, retenciones, otros impuestos ni el neto que percibirás. Tampoco añade colchón para impagos, meses sin proyectos o cambios de gastos, salvo que los incorpores tú a las cifras. Contrasta tu tarifa con la realidad de tu actividad y consulta tu caso fiscal con una asesoría.</div>
   </section>
-
-  <section class="info">
-    <h2>¿Por qué esta calculadora?</h2>
-    <p>Muchos autónomos ponen precio a ojo, sin tener en cuenta todos sus costes ni el margen que necesitan para que el negocio sea sostenible. Esta herramienta parte de un cálculo simple y transparente: sumamos tus costes fijos y variables, los dividimos entre las horas que realmente puedes facturar, y añadimos el porcentaje adicional sobre costes que quieres aplicar.</p>
+  <section class="info" aria-labelledby="guia-title">
+    <h2 id="guia-title">Un ejemplo para empezar</h2>
+    <p>Con 400 € de gastos fijos, 150 € variables, 1.800 € de remuneración y 100 horas facturables al mes, la base es 23,50 €/h. Un recargo del 20 % da <strong>28,20 €/h antes de impuestos</strong>. Si facturas menos horas, la tarifa necesaria aumenta.</p>
+    <p><strong>Fórmula:</strong> (gastos fijos + gastos variables + remuneración propia) ÷ horas facturables × (1 + recargo / 100). Es una referencia de costes, no una predicción de lo que aceptará el mercado ni una garantía de ingresos.</p>
   </section>
-
 </main>
-
-<footer class="site-footer">
-  <div class="container">
-    <p>Calculadora gratuita para autónomos y freelancers. No almacenamos ningún dato: todo el cálculo se hace en tu navegador.</p>
-  </div>
-</footer>
-
+<footer class="site-footer"><div class="container">
+  <p>Una herramienta de <strong>PMR Industries</strong>. Sin registro: los importes se procesan en tu navegador. Si el propietario habilita Web Analytics, se podrán medir visitas, pero no se envían los datos del formulario.</p>
+</div></footer>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
 (function () {
   const form = document.getElementById('calc-form');
   const resultado = document.getElementById('resultado');
-
-  const fields = {
-    fijos: document.getElementById('fijos'),
-    variables: document.getElementById('variables'),
-    horas: document.getElementById('horas'),
-    margen: document.getElementById('margen')
-  };
-
-  const errors = {
-    fijos: document.getElementById('error-fijos'),
-    variables: document.getElementById('error-variables'),
-    horas: document.getElementById('error-horas'),
-    margen: document.getElementById('error-margen')
-  };
-
-  function eur(n) {
-    return n.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
-  }
-
+  const inicial = document.getElementById('estado-inicial');
+  const ids = ['fijos', 'variables', 'sueldo', 'horas', 'margen'];
+  const fields = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+  const errors = Object.fromEntries(ids.map(id => [id, document.getElementById('error-' + id)]));
+  const eur = n => n.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
   function validar() {
     let ok = true;
-    Object.values(errors).forEach(e => e.textContent = '');
-
-    const fijos = parseFloat(fields.fijos.value);
-    const variables = parseFloat(fields.variables.value);
-    const horas = parseFloat(fields.horas.value);
-    const margen = parseFloat(fields.margen.value);
-
-    if (!Number.isFinite(fijos) || fijos < 0) {
-      errors.fijos.textContent = 'Introduce un importe de costes fijos válido (0 o más).';
-      ok = false;
+    ids.forEach(id => { errors[id].textContent = ''; fields[id].removeAttribute('aria-invalid'); });
+    const datos = Object.fromEntries(ids.map(id => [id, Number(fields[id].value)]));
+    for (const id of ids) {
+      const min = id === 'horas' || id === 'sueldo' ? 0.01 : 0;
+      if (fields[id].value.trim() === '' || !Number.isFinite(datos[id]) || datos[id] < min) {
+        errors[id].textContent = id === 'horas' ? 'Introduce más de 0 horas facturables.' : id === 'sueldo' ? 'Introduce una remuneración mayor que 0 €.' : 'Introduce un valor válido de 0 o más.';
+        fields[id].setAttribute('aria-invalid', 'true'); ok = false;
+      }
     }
-    if (!Number.isFinite(variables) || variables < 0) {
-      errors.variables.textContent = 'Introduce un importe de costes variables válido (0 o más).';
-      ok = false;
+    if (ok && !Number.isFinite((datos.fijos + datos.variables + datos.sueldo) / datos.horas * (1 + datos.margen / 100))) {
+      errors.margen.textContent = 'Los valores son demasiado grandes para calcular una tarifa.';
+      fields.margen.setAttribute('aria-invalid', 'true'); ok = false;
     }
-    if (!Number.isFinite(horas) || horas <= 0) {
-      errors.horas.textContent = 'Introduce un número de horas mayor que 0.';
-      ok = false;
-    }
-    if (!Number.isFinite(margen) || margen < 0) {
-      errors.margen.textContent = 'Introduce un margen válido (0 o más).';
-      ok = false;
-    }
-    return ok ? { fijos, variables, horas, margen } : null;
+    if (!ok) fields[ids.find(id => errors[id].textContent)].focus();
+    return ok ? datos : null;
   }
-
   function calcular(e) {
     if (e) e.preventDefault();
     const datos = validar();
-    if (!datos) {
-      resultado.hidden = true;
-      return;
-    }
-    const { fijos, variables, horas, margen } = datos;
-
-    const costesTotales = fijos + variables;
-    const costeHora = costesTotales / horas;
-    const precioRecomendado = costeHora * (1 + margen / 100);
-
-    document.getElementById('coste-hora').textContent = eur(costeHora) + ' /h';
-    document.getElementById('precio-recomendado').textContent = eur(precioRecomendado) + ' /h';
-
-    document.getElementById('d-fijos').textContent = eur(fijos);
-    document.getElementById('d-variables').textContent = eur(variables);
-    document.getElementById('d-total').textContent = eur(costesTotales);
-    document.getElementById('d-horas').textContent = horas + ' h';
-    document.getElementById('d-coste-hora').textContent = eur(costeHora);
-    document.getElementById('d-margen').textContent = margen + ' %';
-    document.getElementById('d-precio-final').textContent = eur(precioRecomendado) + ' /h';
-
-    resultado.hidden = false;
+    if (!datos) { resultado.hidden = true; inicial.hidden = false; return; }
+    const { fijos, variables, sueldo, horas, margen } = datos;
+    const base = fijos + variables + sueldo;
+    const costeHora = base / horas;
+    const precio = costeHora * (1 + margen / 100);
+    const values = {
+      'coste-hora': eur(costeHora) + ' /h', 'precio-recomendado': eur(precio) + ' /h',
+      'd-fijos': eur(fijos), 'd-variables': eur(variables), 'd-sueldo': eur(sueldo),
+      'd-total': eur(base), 'd-horas': horas.toLocaleString('es-ES') + ' h',
+      'd-coste-hora': eur(costeHora) + ' /h', 'd-margen': margen.toLocaleString('es-ES') + ' %',
+      'd-precio-final': eur(precio) + ' /h'
+    };
+    Object.entries(values).forEach(([id, value]) => { document.getElementById(id).textContent = value; });
+    resultado.hidden = false; inicial.hidden = true;
   }
-
   form.addEventListener('submit', calcular);
-  [fields.fijos, fields.variables, fields.horas, fields.margen].forEach(f => {
-    f.addEventListener('input', () => {
-      if (!resultado.hidden) calcular();
-    });
-  });
+  ids.forEach(id => fields[id].addEventListener('input', () => {
+    if (!resultado.hidden) { resultado.hidden = true; inicial.hidden = false; }
+    if (errors[id].textContent) { errors[id].textContent = ''; fields[id].removeAttribute('aria-invalid'); }
+  }));
 })();
 </script>
-
 </body>
 </html>

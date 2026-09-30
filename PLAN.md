@@ -1,37 +1,22 @@
-# PLAN — Calculadora de Precio/Hora para Autónomos
+# Plan — calculadora orientativa de precio/hora
 
 ## Propuesta de valor
-Prototipo web minimalista y gratuito, sin registro, que calcula en tiempo real el precio/hora que un autónomo debe cobrar a partir de 4 datos: costes fijos mensuales, costes variables mensuales, horas facturables al mes y margen de beneficio deseado (%). Resuelve el problema de "poner precio a ojo" mostrando el desglose completo (costes totales → coste/hora → precio/hora con margen) de forma transparente y educativa, en un único vistazo, sin necesidad de conocimientos financieros.
+Herramienta gratuita, sin registro, que muestra una base por hora y una tarifa orientativa a partir de cinco datos: gastos fijos mensuales, gastos variables mensuales, remuneración propia mensual deseada, horas facturables mensuales y recargo sobre costes. El resultado no promete un sueldo neto ni sustituye asesoramiento fiscal.
 
 ## Público
-Freelancers y autónomos en España (y LatAm) que arrancan o revisan sus tarifas: diseñadores, programadores, consultores, fotógrafos, redactores, artesanos. Buscan una respuesta inmediata desde el móvil, sin registrarse ni dar el email. Nivel de exigencia: quieren un número fiable en segundos, no una hoja de cálculo compleja.
+Autónomos y freelancers en España que quieren poner números a una tarifa inicial sin crear una cuenta. Ejemplo de uso: probar diferentes estimaciones de horas facturables y ver el efecto en la tarifa.
 
-## Estructura (single-page)
-1. **Header**: título + subtítulo claro de qué hace la calculadora.
-2. **Formulario** (4 campos, recalcula on-input y con botón "Calcular" para accesibilidad):
-   - Costes fijos mensuales (€) — alquiler, software, seguros, cuota autónomo, etc.
-   - Costes variables mensuales (€) — materiales, comisiones, desplazamientos, etc.
-   - Horas facturables al mes — horas reales que se pueden cobrar a clientes.
-   - Margen de beneficio deseado (%) — por defecto 20%.
-3. **Resultado inmediato**:
-   - Costes totales = fijos + variables.
-   - Coste/hora = costes totales / horas facturables.
-   - **Precio/hora recomendado** = coste/hora × (1 + margen/100).
-   - Desglose visual paso a paso (no es caja negra).
-4. **Aviso**: nota breve de que es una estimación orientativa (no incluye impuestos ni asesoría fiscal), y que conviene revisar con un gestor.
-5. **Footer**: mini nota de autoría, sin enlaces rotos, analítica Vercel (sin cookies invasivas).
+## Estructura
+- Una sola página con formulario semántico, estado vacío, dos cifras de resultado y desglose de cinco pasos.
+- Fórmula: base mensual = gastos fijos + variables + remuneración propia; base/hora = base mensual / horas facturables; tarifa orientativa/hora = base/hora × (1 + recargo/100).
+- El recargo es sobre costes, NO margen sobre ventas; el salario neto después de impuestos no se calcula.
+- Campos obligatorios: gastos y recargo ≥ 0; remuneración y horas > 0. Ocultar resultados obsoletos al modificar los valores. Ejemplo: 400 + 150 + 1800 = 2350; /100 = 23,50; × 1,2 = 28,20 €/h.
+- Ayudas junto al campo de horas: ventas, gestión, vacaciones y bajas restan horas facturables. Aviso fiscal y de límites al lado del resultado.
+- Responsable identificado: PMR Industries (marca asociada al propietario y al repositorio público del proyecto). Analítica enlazada pero la activación en Vercel es opcional y depende del propietario.
 
-## Referencias (URL)
-- https://www.infoautonomos.com/calculadoras/calculadora-precio-hora-freelance/ — modelo de referencia: costes + horas → precio/hora, estándar del sector.
-- https://www.sba.gov/business-guide/manage-your-business/calculate-freelance-rate — enfoque comparable (costes fijos+variables, horas facturables, margen) usado por guías de negocio para freelancers.
-- https://www.freshbooks.com/hub/pricing/hourly-rate-calculator — ejemplo de calculadora hourly-rate simple con margen configurable, referencia de UX minimalista.
+## Referencias consideradas en la revisión
+- https://www.infoautonomos.com/utilidades/plantillas/plantilla-de-calculo-del-precio-hora-cobrar-por-tu-trabajo/
+- https://es.calcuworld.com/calculadoras-empresariales/tarifas-para-autonomos-y-freelancers/
 
-## Criterios de calidad
-- Cálculo correcto y consistente (validado con casos de prueba a mano: costes=0, horas=0, valores típicos).
-- Inputs validados: no negativos, no vacíos, horas>0 obligatorio, mensajes de error claros e inline.
-- Responsive real con @media (móvil/tablet/desktop).
-- SEO técnico: title, meta description, H1 único, lang="es", viewport, OG tags, robots.txt, sitemap.xml, favicon.
-- Accesibilidad: labels asociadas a cada input, contraste AA, atributos aria donde aplique.
-- Sin dependencias externas pesadas: vanilla HTML/CSS/JS, carga instantánea, sin frameworks.
-- Copy completo, sin marcadores ni texto de relleno tipo "lorem ipsum".
-- site_check ≥ 85/100 sin fallos críticos antes de publicar; revisión crítica media ≥ 7.5/10 sin ninguna nota bajo 6.
+## Calidad y salida
+HTML semántico; CSS responsive; title, description, OG, canonical, robots, sitemap, favicon; labels, errores inline, aria-live; cálculo local sin dependencias; test en Node y site_check ≥85 sin fallos críticos. Tras revisión independiente, media ≥7.5/10 y ninguna nota bajo 6. Cambios en producción solo previa aprobación del propietario.
